@@ -2,6 +2,7 @@ import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import { Client, GatewayIntentBits } from "discord.js";
 import { config } from "dotenv";
+import { IEventsExport } from "./helpers/eventExports";
 
 config();
 
@@ -14,12 +15,10 @@ const eventFiles = readdirSync(eventsPath).filter((file) =>
 
 for (const file of eventFiles) {
   const filePath = join(eventsPath, file);
-  const event = require(filePath);
-  if (event.once) {
-    client.once(event.name, (...args) => event.execute(...args));
-  } else {
-    client.on(event.name, (...args) => event.execute(...args));
-  }
+  const event = require(filePath) as IEventsExport;
+  event.once
+    ? client.once(event.name, (...args) => event.execute(...args))
+    : client.on(event.name, (...args) => event.execute(...args));
 }
 
 client.login(process.env.TOKEN);
