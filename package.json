@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "deploy-commands": "ts-node src/deploy-commands.ts"
   },
   "keywords": [],
   "author": "",
